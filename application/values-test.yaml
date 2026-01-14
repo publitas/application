@@ -1355,6 +1355,21 @@ job:
           - name: ndots
             value: '1'
 
+migration:
+  enabled: false
+  annotations:
+    # argocd.argoproj.io/sync-wave: "-1"
+  backoffLimit: 0
+  image:
+    repository: ""
+    tag: ""
+    digest: ""
+    imagePullPolicy: IfNotPresent
+  command: []
+  args: []
+  env: {}
+  envFrom:
+
 extraObjects:
   a:
     apiVersion: v1

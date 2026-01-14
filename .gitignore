@@ -6,3 +6,4 @@
 
 # helm-unittest
 .debug/
+dist/*

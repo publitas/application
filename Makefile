@@ -6,7 +6,8 @@ install-hooks:
 
 bump-chart:
 	@test -n "$(VERSION)" || (echo "VERSION environment variable is not set"; exit 1)
-	sed -i 's/^version: [0-9]\{1,\}\.[0-9]\{1,\}\.[0-9]\{1,\}/version: $(VERSION)/' application/Chart.yaml
+	# Cross-platform in-place replacement (works on GNU/Linux and macOS BSD)
+	perl -pi -e 's/^version: \\d+\\.\\d+\\.\\d+/version: $(VERSION)/' application/Chart.yaml
 
 build-docs: install-hooks
 	# Running helm-docs-built twice to ensure that the generated docs are up-to-date

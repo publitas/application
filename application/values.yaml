@@ -104,6 +104,62 @@ job:
     #     - "foo.remote"
     #     - "bar.remote"
 
+migration:
+  # -- (bool) Deploy a one-off migration Job.
+  # @section -- Migration Parameters
+  enabled: false
+  # -- (int) Number of retries before considering the Job failed.
+  # @default -- 0
+  # @section -- Migration Parameters
+  backoffLimit: 0
+  # -- (bool) Use generateName for unique Job names to avoid immutable spec issues.
+  # When true, Job metadata will use generateName: "<release>-migrate-"
+  # @section -- Migration Parameters
+  useGenerateName: true
+  # -- (list) List of secrets to be used for pulling the images.
+  # @section -- Migration Parameters
+  imagePullSecrets: []
+  # -- (object) Image to use for the migration container.
+  # @section -- Migration Parameters
+  image:
+    # -- (string) Repository.
+    repository: ""
+    # -- (string) Tag.
+    tag: ""
+    # -- (string) Image digest. If set to a non-empty value, digest takes precedence on the tag.
+    digest: ""
+    # -- (string) Image pull policy.
+    imagePullPolicy: IfNotPresent
+  # -- (list) Command to run for the migration.
+  # Example: ["bundle", "exec", "rails", "db:migrate"]
+  # @section -- Migration Parameters
+  command: []
+  # -- (list) Optional args to pass to the command.
+  # @section -- Migration Parameters
+  args: []
+  # -- (object) Environment variables to add.
+  # @section -- Migration Parameters
+  env: {}
+  # -- (list) Environment sources to add to the container. Passed through as-is.
+  # Example:
+  # - secretRef:
+  #     name: '{{ template "application.name" $ }}'
+  # @section -- Migration Parameters
+  envFrom:
+  # -- (list) Volume mounts for the migration container (optional).
+  # Example:
+  # volumeMounts:
+  #   - name: config
+  #     mountPath: /app/config
+  volumeMounts:
+  # -- (list) Volumes for the migration pod (optional).
+  # Example:
+  # volumes:
+  #   - name: config
+  #     configMap:
+  #       name: '{{ template "application.name" $ }}-config'
+  volumes:
+
 deployment:
   # -- (bool) Enable Deployment.
   # @section -- Deployment Parameters

@@ -1,0 +1,68 @@
+suite: Migration
+
+templates:
+  - migration.yaml
+
+tests:
+  - it: renders migration job with image and command
+    set:
+      migration:
+        enabled: true
+        # default useGenerateName is true
+        image:
+          repository: example-image
+          tag: example-tag
+        command: ["bundle", "exec", "rails", "db:migrate"]
+    asserts:
+      - equal:
+          path: kind
+          value: Job
+      - equal:
+          path: metadata.generateName
+          value: application-migrate-
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: example-image:example-tag
+      - equal:
+          path: spec.template.spec.containers[0].command
+          value:
+            - bundle
+            - exec
+            - rails
+            - db:migrate
+
+  - it: uses digest when defined
+    set:
+      migration:
+        enabled: true
+        image:
+          repository: example-image
+          digest: sha256:example-digest
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: example-image@sha256:example-digest
+
+  - it: has backoffLimit default to 0
+    set:
+      migration:
+        enabled: true
+        image:
+          repository: example-image
+    asserts:
+      - equal:
+          path: spec.backoffLimit
+          value: 0
+
+  - it: uses fixed name when useGenerateName is false
+    set:
+      migration:
+        enabled: true
+        useGenerateName: false
+        image:
+          repository: example-image
+    asserts:
+      - equal:
+          path: metadata.name
+          value: application-migrate
+
