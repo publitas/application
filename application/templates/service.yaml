@@ -16,6 +16,9 @@ metadata:
 {{- end }}
 spec:
   type: {{ .Values.service.type }}
+{{- with .Values.service.trafficDistribution }}
+  trafficDistribution: {{ . }}
+{{- end }}
 {{- with .Values.service.clusterIP }}
   clusterIP: {{ . }}
 {{- end }}
