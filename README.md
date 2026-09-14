@@ -155,6 +155,7 @@ helm delete --namespace test my-application
 | service.type | string | `"ClusterIP"` | Type of service. |
 | service.clusterIP | string | `nil` | Fixed IP for a ClusterIP service. Set to `None` for an headless service |
 | service.loadBalancerClass | string | `nil` | LoadBalancer class name for LoadBalancer type services. |
+| service.trafficDistribution | string | `nil` | Endpoint selection preference, e.g. `PreferClose` to keep a call in the caller's zone when a ready endpoint exists there, falling back cluster-wide when none does. Unset leaves Kubernetes' default behaviour of spreading uniformly across all endpoints. Requires Kubernetes 1.31+. |
 
 ### Ingress Parameters
 
